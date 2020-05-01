@@ -40,7 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
 			const panel = vscode.window.createWebviewPanel(
 					'StackOverflow',
 					'StackOverflow IDE',
-					vscode.ViewColumn.One,
+					vscode.ViewColumn.Beside,
 					{} 
 				);
 			panel.webview.html = getWebviewContent(response);
