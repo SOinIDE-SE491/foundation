@@ -1,6 +1,8 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
+import * as path from 'path';
+import * as fs from 'fs';
 import { pathToFileURL } from "url";
 const axios = require("axios");
 
@@ -21,18 +23,6 @@ export function activate(context: vscode.ExtensionContext) {
     () => {
       // The code you place here will be executed every time your command is executed
 
-      /* SAMPLE: WebviewPanel (Open new tab) */
-      // const panel = vscode.window.createWebviewPanel(
-      // 	'StackOverflow',
-      // 	'StackOverflow IDE',
-      // 	vscode.ViewColumn.One,
-      // 	{}
-      // );
-      // panel.webview.html = getWebviewContent();
-
-      // Display a message box to the user
-      // vscode.window.showInformationMessage('Hello from StackOverflow IDE!');
-
       /* SAMPLE INPUT BOX */
       var response: any;
       const input = vscode.window.showInputBox({
@@ -48,14 +38,39 @@ export function activate(context: vscode.ExtensionContext) {
             "https://api.stackexchange.com/2.2/search/advanced?order=desc&sort=activity&site=stackoverflow&q=" +
               res
           )
-          .then(function (response) {
+          .then(function (response: any) {
             // handle success
 
             const results = response.data.items;
-            panel.webview.html = getWebviewContent(results);
+            
+            // /* READ & LOAD: test openning html file */
+            // const indexPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'view', 'index.html'));
+            // const scriptPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'view', 'script.js'));
+            // const scriptUri = panel.webview.asWebviewUri(scriptPath);
+            // var indexHtml = fs.readFileSync(indexPath.path, 'utf8');
+            // indexHtml = indexHtml.replace('script.js', `${scriptUri}`);
+            // panel.webview.html = indexHtml;
+            // /* SEND MESSAGES: from extention to webview */
+            // if (!panel || panel) {
+            //   panel.webview.html = indexHtml;
+            //   panel.webview.postMessage(JSON.stringify({questions: results}));
+            //   console.log("Send msg to webview");
+            // }
+            // /****************************/
+
+            // Get script.js & style.css path and pass as parameters 
+            const scriptPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'view', 'script.js'));
+            const cssPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'view', 'style.css'));
+            const scriptUri = panel.webview.asWebviewUri(scriptPath);
+            const cssUri = panel.webview.asWebviewUri(cssPath);
+            // Launch html page
+            panel.webview.html = getWebviewContent(results, scriptUri, cssUri);
+            // Send message to webview
+            panel.webview.postMessage(JSON.stringify({questions: results})); 
+            
             console.log(results);
           })
-          .catch(function (error) {
+          .catch(function (error: any) {
             // handle error
             console.log(error);
           })
@@ -70,55 +85,73 @@ export function activate(context: vscode.ExtensionContext) {
           "StackOverflow",
           "StackOverflow IDE",
           vscode.ViewColumn.Beside,
-          {}
+          {enableScripts: true}
         );
-        // panel.webview.html = getWebviewContent(response);
       });
 
-      /* SAMPLE QUICK PICK */
-      // var selected: any;
-      // const pick = vscode.window.showQuickPick(
-      // 	[
-      // 		{ label: 'C', description: '				Search for C' },
-      // 		{ label: 'C++', description: '			Search for C++' },
-      // 		{ label: 'C#', description: '			Search for C#' },
-      // 		{ label: 'Java', description: '			Search for Java' },
-      // 		{ label: 'JavaScript', description: '		Search for JavaScript' },
-      // 		{ label: 'Python', description: '		Search for Python'},
-      // 		{ label: 'TypeScript', description: '		Search for TypeScript' },
-      // 	],
-      // 	{ placeHolder: 'Select language.',}
-      // ).then((res) => {
-      // 	selected = res?.label;
-      // 	vscode.window.showInformationMessage(selected);
-      // });
-
-      /* SAMPLE TERMINAL */
-      // const terminal = vscode.window.createTerminal('StackOverflow IDE');
-      // terminal.show();
-      // terminal.sendText('Hello there');
     }
   );
 
   context.subscriptions.push(disposable);
 }
 
-function getWebviewContent(response: String) {
-  return `<!DOCTYPE html>
-  <html lang="en">
+function getWebviewContent(response: any, scriptUri: vscode.Uri, cssUri: vscode.Uri) {
+  var questions = JSON.stringify(response);
+  questions = `{ questions: ${questions} }`;
+  return `<html lang="en">
   <head>
-	  <meta charset="UTF-8">
-	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	  <title>Cat Coding</title>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+      <script src="jquery-3.4.1.min.js"></script>
+      <script src="${scriptUri}"></script>
+      <script src="${cssUri}"></script>
+      <title>Testing</title>
   </head>
-	<body>
-		<a href="${response[0].link}"><h2>User entered: ${response[0].title}</h2></a>
+  <body>
 
-		<h2>User entered: ${response[1].title}</h2>
+    <h2>Stack Overflow IDE</h2>
+      <form>
+        <div class="form-group form-control-sm row">
+            <label class="mt-1 ml-2" for="query">Question:</label>
+            <input class="form-control form-control-sm ml-2" type="text" placeholder="Enter question" style="width:25%">
+            <label class="mt-1 ml-2" for="tags">Language:</label>
+            <input class="form-control form-control-sm ml-2" type="text" placeholder="Enter language" style="width:25%">
+            <button class="btn btn-primary btn-sm ml-2">Search</button>
+        </div>
+      </form>
+      <hr>
+      <div id="container">
+          <div id="questionsContainer"></div>
+      </div>
 
-		<h2>User entered: ${response[2].title}</h2>
-
-	  <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" width="300" />
+      <script id="questionsTemplate" type="text/x-handlebars-template">
+          {{#each questions}}
+          <div class="questionTitle ml-2 mt-2">
+              <b>Question: {{addOne @index}}</b>&ensp;{{title}}
+              <div class="scoreView">
+                score: {{score}}  views: {{view_count}}
+              </div>
+          </div>
+          <hr>
+          {{/each}}
+      </script>
+  
+      <script type="text/javascript">
+          Handlebars.registerHelper("addOne", function (index) {
+            return index + 1
+          });
+          var questionInfo = document.getElementById("questionsTemplate").innerHTML;
+          var template = Handlebars.compile(questionInfo);
+          var questionData = template(${questions});
+          document.getElementById("questionsContainer").innerHTML = questionData;
+          cssStyle();
+      </script>
+      
   </body>
   </html>`;
 }
