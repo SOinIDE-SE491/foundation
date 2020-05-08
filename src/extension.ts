@@ -111,8 +111,8 @@ function getWebviewContent(response: String) {
 	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	  <title>Cat Coding</title>
   </head>
-  <body>
-		<h2>User entered: ${response[0].title}</h2>
+	<body>
+		<a href="${response[0].link}"><h2>User entered: ${response[0].title}</h2></a>
 
 		<h2>User entered: ${response[1].title}</h2>
 
