@@ -103,7 +103,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(disposable);
 }
 
-function getWebviewContent(response: String) {
+function getWebviewContent(response: any) {
   return `<!DOCTYPE html>
   <html lang="en">
   <head>
