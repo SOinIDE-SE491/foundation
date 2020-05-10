@@ -112,18 +112,29 @@ function getWebviewContent(response: any, scriptUri: vscode.Uri, cssUri: vscode.
       <script src="${cssUri}"></script>
       <title>Testing</title>
   </head>
+  <style>
+  html {
+    font-size:14px;
+  }
+  </style>
   <body>
 
     <h2>Stack Overflow IDE</h2>
       <form>
         <div class="form-group form-control-sm row">
             <label class="mt-1 ml-2" for="query">Question:</label>
-            <input class="form-control form-control-sm ml-2" type="text" placeholder="Enter question" style="width:25%">
-            <label class="mt-1 ml-2" for="tags">Language:</label>
-            <input class="form-control form-control-sm ml-2" type="text" placeholder="Enter language" style="width:25%">
+            <input class="form-control form-control-sm ml-2 border-dark" type="text" placeholder="Enter question" style="width:25%">
+            <label class="mt-1 ml-2" for="tags">Tags:</label>
+            <input class="form-control form-control-sm ml-2 border-dark" type="text" placeholder="Enter tag" style="width:25%">
             <button class="btn btn-primary btn-sm ml-2">Search</button>
         </div>
       </form>
+      <div class="btn-group" style="margin-left: 60px;" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-outline-secondary btn-sm">Relevance</button>
+        <button type="button" class="btn btn-outline-secondary btn-sm">New</button>
+        <button type="button" class="btn btn-outline-secondary btn-sm">Active</button>
+        <button type="button" class="btn btn-outline-secondary btn-sm">Votes</button>
+      </div>
       <hr>
       <div id="container">
           <div id="questionsContainer"></div>
@@ -131,11 +142,28 @@ function getWebviewContent(response: any, scriptUri: vscode.Uri, cssUri: vscode.
 
       <script id="questionsTemplate" type="text/x-handlebars-template">
           {{#each questions}}
-          <div class="questionTitle ml-2 mt-2">
-              <b>Question: {{addOne @index}}</b>&ensp;{{title}}
-              <div class="scoreView">
-                score: {{score}}  views: {{view_count}}
+          <div class="questionTitle pl-3 pt-3 pb-3 pr-3 m-3 rounded" style=" width:90%; display:flex;">
+  
+              <div class="questionStats" style="width:100px;">
+                <div class="votes">
+                  votes: <span style="float:right;">{{score}}</span>
+                </div>
+                <div class="answers">
+                  answers: <span style="float:right;">{{answer_count}}</span>
+                </div>
+                <div class="views">
+                  views: <span style="float:right;">{{view_count}}</span>
+                </div>
               </div>
+
+              <div class="qestionTag" style="margin-left: 30px; display: flex; justify-content: center; align-items: top;"><b>Question:</b></div>
+
+              <div class="question">
+                <div class="question" style="width:80%; margin-left:10px; display:flex; justify-content:center; align-items:top;">
+                  {{title}}
+                </div>
+              </div>
+
           </div>
           <hr>
           {{/each}}

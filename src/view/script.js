@@ -16,8 +16,13 @@ window.addEventListener("message", event => {
 // Always call cssStyle function()
 function cssStyle() {
     console.log('hello from extention.ts to script.js');
-    $("body").css("background-color", "lightgray");
+    $("body").css("background-color", "white");
     $("#container").css("background-color", "white");
+    $(".questionTitle").mouseover(function() {
+        $(this).css("background-color","#f0f0f0");
+    }).mouseout(function() {
+        $(this).css("background-color","transparent");
+    });
 };
 
 function receivedQuestions(questions) {
