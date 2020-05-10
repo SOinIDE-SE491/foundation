@@ -48,14 +48,14 @@ export function activate(context: vscode.ExtensionContext) {
             "https://api.stackexchange.com/2.2/search/advanced?order=desc&sort=activity&site=stackoverflow&q=" +
               res
           )
-          .then(function (response) {
+          .then(function (response: any) {
             // handle success
 
             const results = response.data.items;
             panel.webview.html = getWebviewContent(results);
             console.log(results);
           })
-          .catch(function (error) {
+          .catch(function (error: any) {
             // handle error
             console.log(error);
           })
