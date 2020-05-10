@@ -48,14 +48,14 @@ export function activate(context: vscode.ExtensionContext) {
             "https://api.stackexchange.com/2.2/search/advanced?order=desc&sort=activity&site=stackoverflow&q=" +
               res
           )
-          .then(function (response: any) {
+          .then(function (response) {
             // handle success
 
             const results = response.data.items;
             panel.webview.html = getWebviewContent(results);
             console.log(results);
           })
-          .catch(function (error: any) {
+          .catch(function (error) {
             // handle error
             console.log(error);
           })
@@ -103,7 +103,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(disposable);
 }
 
-function getWebviewContent(response: any) {
+function getWebviewContent(response: String) {
   return `<!DOCTYPE html>
   <html lang="en">
   <head>
