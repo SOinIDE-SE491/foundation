@@ -230,12 +230,13 @@ function getWebviewContent(
               </div>
 
               <div class="qestionTag" style="margin-left: 30px; display: flex; justify-content: center; align-items: top;"><b>Question:</b></div>
-
+              <a href={{link}}>
               <div class="question">
                 <div class="question" style="width:80%; margin-left:10px; display:flex; justify-content:center; align-items:top;">
                   {{title}}
                 </div>
               </div>
+              </a>
 
           </div>
           <hr>
