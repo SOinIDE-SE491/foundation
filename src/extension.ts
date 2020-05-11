@@ -1,13 +1,15 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
-import * as path from 'path';
-import * as fs from 'fs';
+import * as path from "path";
+import * as fs from "fs";
 import { pathToFileURL } from "url";
 const axios = require("axios");
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+// may be bad practice, but so is missing deadlines
+let results;
+let pages;
+
 export function activate(context: vscode.ExtensionContext) {
   // Use the console to output diagnostic information (console.log) and errors (console.error)
   // This line of code will only be executed once when your extension is activated
@@ -15,15 +17,9 @@ export function activate(context: vscode.ExtensionContext) {
     'Congratulations, your extension "stackoverflow-ide" is now active!'
   );
 
-  // The command has been defined in the package.json file
-  // Now provide the implementation of the command with registerCommand
-  // The commandId parameter must match the command field in package.json
   let disposable = vscode.commands.registerCommand(
     "stackoverflow-ide.run",
     () => {
-      // The code you place here will be executed every time your command is executed
-
-      /* SAMPLE INPUT BOX */
       var response: any;
       const input = vscode.window.showInputBox({
         prompt: "What is your question?",
@@ -31,8 +27,6 @@ export function activate(context: vscode.ExtensionContext) {
       });
       input.then((res) => {
         response = res;
-
-        // Make a request for a user with a given ID
         axios
           .get(
             "https://api.stackexchange.com/2.2/search/advanced?order=desc&sort=activity&site=stackoverflow&q=" +
@@ -41,8 +35,8 @@ export function activate(context: vscode.ExtensionContext) {
           .then(function (response: any) {
             // handle success
 
-            const results = response.data.items;
-            
+            results = response.data.items;
+
             // /* READ & LOAD: test openning html file */
             // const indexPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'view', 'index.html'));
             // const scriptPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'view', 'script.js'));
@@ -58,17 +52,39 @@ export function activate(context: vscode.ExtensionContext) {
             // }
             // /****************************/
 
-            // Get script.js & style.css path and pass as parameters 
-            const scriptPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'view', 'script.js'));
-            const cssPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'view', 'style.css'));
+            // Get script.js & style.css path and pass as parameters
+            const scriptPath = vscode.Uri.file(
+              path.join(context.extensionPath, "src", "view", "script.js")
+            );
+            const cssPath = vscode.Uri.file(
+              path.join(context.extensionPath, "src", "view", "style.css")
+            );
             const scriptUri = panel.webview.asWebviewUri(scriptPath);
             const cssUri = panel.webview.asWebviewUri(cssPath);
-            // Launch html page
-            panel.webview.html = getWebviewContent(results, scriptUri, cssUri);
-            // Send message to webview
-            panel.webview.postMessage(JSON.stringify({questions: results})); 
-            
+
             console.log(results);
+            //store in the results global
+
+            // check if results were found
+            if (results.length > 0) {
+              //after this is complete, number of pages can be accessed via global pages.length
+              buildPages(results);
+
+              const resultsSubset = getPage(1);
+
+              // Launch html page
+              panel.webview.html = getWebviewContent(
+                resultsSubset,
+                scriptUri,
+                cssUri
+              );
+              // Send message to webview
+              panel.webview.postMessage(
+                JSON.stringify({ questions: resultsSubset })
+              );
+            } else {
+              panel.webview.html = nullResults();
+            }
           })
           .catch(function (error: any) {
             // handle error
@@ -77,28 +93,85 @@ export function activate(context: vscode.ExtensionContext) {
           .finally(function () {
             // always executed
           });
-
-        //vscode.window.showInformationMessage(response);
-
-        // 'https://api.stackexchange.com/2.2/search/advanced?order=desc&sort=activity&site=stackoverflow&q=golang';
         const panel = vscode.window.createWebviewPanel(
           "StackOverflow",
           "StackOverflow IDE",
           vscode.ViewColumn.Beside,
-          {enableScripts: true}
+          { enableScripts: true }
         );
       });
-
     }
   );
 
   context.subscriptions.push(disposable);
 }
 
-function getWebviewContent(response: any, scriptUri: vscode.Uri, cssUri: vscode.Uri) {
+const buildPages = (results) => {
+  pages = [];
+
+  // calculate the number of pages required
+  // standard results are 30, so this is most likely 6
+  let numOfPages = Math.ceil(results.length / 5);
+
+  // can probably do this more efficeintly with a map function
+  for (let i = 1; i <= numOfPages; i++) {
+    //logic for all pages except the last
+    if (i != numOfPages) {
+      let page = results.slice(0, 5);
+      results.splice(5, results.length);
+      pages.push(page);
+    } else {
+      //handle last page differently as it may not be a complete page
+      let page = results.slice(0, results.length);
+      pages.push(page);
+    }
+  }
+};
+
+const getPage = (pageNumber) => {
+  //returns an array of five results
+  /*
+	Array[5]
+		0:Object
+			tags:Array[4]
+			owner:Object
+			is_answered:false
+			view_count:12
+			answer_count:1
+			score:0
+			last_activity_date:1589135775
+			creation_date:1589134973
+			last_edit_date:1589135775
+			question_id:61716789
+			link:"https://stackoverflow.com/questions/61716789/classnotfoundexception-with-kafka-connect-mqtt-connector"
+			title:"ClassNotFoundException with Kafka Connect MQTT connector"
+	*/
+  return pages[pageNumber];
+};
+
+const nullResults = () => {
+  return `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+	  <meta charset="UTF-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <title>Cat Coding</title>
+  </head>
+	<body>
+		<h1>No results. Please try a different question.</h1>
+  </body>
+  </html>`;
+};
+
+function getWebviewContent(
+  response: any,
+  scriptUri: vscode.Uri,
+  cssUri: vscode.Uri
+) {
   var questions = JSON.stringify(response);
   questions = `{ questions: ${questions} }`;
   return `<html lang="en">
+
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
