@@ -8,7 +8,7 @@ const axios = require("axios");
 
 // may be bad practice, but so is missing deadlines
 let results;
-let pages;
+let pages: any;
 
 export function activate(context: vscode.ExtensionContext) {
   // Use the console to output diagnostic information (console.log) and errors (console.error)
@@ -106,7 +106,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(disposable);
 }
 
-const buildPages = (results) => {
+const buildPages = (results: any) => {
   pages = [];
 
   // calculate the number of pages required
@@ -128,7 +128,7 @@ const buildPages = (results) => {
   }
 };
 
-const getPage = (pageNumber) => {
+const getPage = (pageNumber: any) => {
   //returns an array of five results
   /*
 	Array[5]
