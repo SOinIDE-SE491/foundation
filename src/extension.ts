@@ -62,6 +62,9 @@ export function activate(context: vscode.ExtensionContext) {
             const scriptUri = panel.webview.asWebviewUri(scriptPath);
             const cssUri = panel.webview.asWebviewUri(cssPath);
 
+            //const filePath: vscode.Uri = vscode.Uri.file(path.join(context.extensionPath, 'src', 'html', 'index.html'));
+            //panel.webview.html = fs.readFileSync(filePath.fsPath, 'utf8');
+
             console.log(results);
             //store in the results global
 
@@ -116,7 +119,7 @@ const buildPages = (results: any) => {
   // can probably do this more efficeintly with a map function
   for (let i = 1; i <= numOfPages; i++) {
     //logic for all pages except the last
-    if (i != numOfPages) {
+    if (i !== numOfPages) {
       let page = results.slice(0, 5);
       results.splice(5, results.length);
       pages.push(page);
