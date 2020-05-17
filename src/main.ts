@@ -1,21 +1,21 @@
 import Vue from "vue";
-import Vuetify from "vuetify";
-import Results from "./components/Results.vue";
-//const Results = require("./components/Results.vue");
-import "vuetify/dist/vuetify.min.css";
+import * as Vuetify from "vuetify";
+import Query from "./components/Query.vue";
 
-// Vue.use(Vuetify);
+Vue.use(Vuetify);
 
 let v = new Vue({
     el: "#app",
     template: `
     <div>
-        <h1>Test</h1>
-        <results></results>
-        </div>
+        <query :query=query></query>
+    </div>
     `,
-    data: { name: "Main" },
+    data: { query: "" },
     components: {
-        Results
+        Query
+    },
+    beforeMount: function(){
+        this.query = this.$el.attributes['data-query'].value;
     }
 });
