@@ -1,9 +1,10 @@
 import Vue from "vue";
 import Vuetify from "vuetify";
 import Results from "./components/Results.vue";
+//const Results = require("./components/Results.vue");
 import "vuetify/dist/vuetify.min.css";
 
-Vue.use(Vuetify);
+// Vue.use(Vuetify);
 
 let v = new Vue({
     el: "#app",

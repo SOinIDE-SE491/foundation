@@ -19,7 +19,7 @@
 		],
 		"baseUrl": ".",
 		"sourceMap": true,
-		"rootDir": "src",
+		"rootDir": "src-ext",
 		"strict": true,
 		"noUnusedParameters": true,
 	},
@@ -29,10 +29,7 @@
 		]
 	},
 	"include": [
-		"src/*.ts",
-		"src/**/*.ts",
-		"src/**/*.vue",
-		"test/**/*.ts",
+		"src-ext/extension.ts"
 	],
 	"exclude": [
 		"node_modules",

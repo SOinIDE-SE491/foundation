@@ -35,9 +35,6 @@ export function activate(context: vscode.ExtensionContext) {
 export function deactivate() {};
 
 function getTemplate(extensionPath: string) {
-  const main = vscode.Uri.file(
-    path.join(extensionPath, "out", "main.js")
-  );
   const script = vscode.Uri.file(
     path.join(extensionPath, "dist", "js", "app.js")
   );
@@ -45,7 +42,6 @@ function getTemplate(extensionPath: string) {
     path.join(extensionPath, "dist", "style", "app.css")
   );
 
-  const mainPath = main.with({scheme: 'vscode-resource'});
   const scriptPath = script.with({scheme: 'vscode-resource'});
   const cssPath = css.with({scheme: 'vscode-resource'});
 
@@ -58,14 +54,12 @@ function getTemplate(extensionPath: string) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StackoverflowIDE</title>
-<link rel="stylesheet" type="text/css" href="${cssPath}">
+<!--<link rel="stylesheet" type="text/css" href="${cssPath}">-->
 </head>
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  <h1>Test</h1>
   <div id="app"></div>
   <script src="${scriptPath}"></script>
-  <script src="${mainPath}"></script>
 </body>
 </html>`;
 
