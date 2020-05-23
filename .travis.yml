@@ -5,12 +5,12 @@ language: node_js
 node_js:
   - "node"
 
-#install: 
-#  - npm install
+install: 
+  - npm install
 #  - npm run vscode:prepublish
 
 #script:
-#  - npm test --silent
+  - npm test --silent
 
 #after_success:
 #  - bash <(curl -s https://codecov.io/bash)
