@@ -3,14 +3,17 @@ language: node_js
 #sudo: false
 
 node_js:
-  - "node"
+  - 10
+  - 9
+  - 8
+  - node
 
 install: 
   - npm install
-#  - npm run vscode:prepublish
+#  - npm run vscode:prepublishs
 
 #script:
-  - npm test --silent
+  #- npm test --silent
 
 #after_success:
 #  - bash <(curl -s https://codecov.io/bash)
