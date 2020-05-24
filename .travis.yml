@@ -10,10 +10,6 @@ node_js:
 
 #git install: 
 #  - npm install
-#  - npm run vscode:prepublishs
 
-#script:
-  #- npm test --silent
-
-#after_success:
-#  - bash <(curl -s https://codecov.io/bash)
+script:
+  - npm test
