@@ -28,7 +28,7 @@
 		"compile:vue": "vue-cli-service build --mode=development --inline-vue",
 		"compile:extension": "tsc -p ./",
 		"lint": "eslint src --ext ts",
-		"watch": "tsc -watch -p ./",
+		"watch": "vue-cli-service build --watch",
 		"pretest": "npm run compile && npm run lint",
 		"test": "mocha ./src/test/ --recursive"
 	},
