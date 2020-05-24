@@ -47,6 +47,9 @@
                 </div>
 
                 <div class="userInfo">
+                  <div class="questionDate">
+                      asked: {{item.creation_date}}
+                    </div>
                     <div class="userImage">
                         <div class="userImage">
                             <img :src="item.owner.profile_image">
@@ -111,14 +114,15 @@
         /* background-color:rgb(94, 186, 125); */
         border-radius:3px;
         padding:2px;
+        color:gray;
       }
 
       .votesScore {
-        font-size:14px;
+        font-size:16px;
       }
 
       .votesTag {
-        font-size:9px;
+        font-size:11px;
       }
 
       .answers {
@@ -128,12 +132,12 @@
       }
 
       .answersScore {
-        font-size:14px;
+        font-size:16px;
         color:white;
       }
 
       .answersTag {
-        font-size:9px;
+        font-size:11px;
         color:white;
       }
 
@@ -143,7 +147,7 @@
         padding:2px;
         margin-top:10px;
         color:#f48024;
-        font-size:9px;
+        font-size:11px;
       }
 
       .question {
@@ -157,7 +161,7 @@
       }
 
       .tags {
-        font-size:10px;
+        font-size:11px;
         margin-left:20px;
       }
 
@@ -170,10 +174,14 @@
         margin-top:5px;
         margin-bottom:5px;
         margin-left:20px;
-        font-size:10px;
+        font-size:11px;
         width:170px;
         position:static;
         display:block;
+      }
+
+      .questionDate {
+        color:gray;
       }
 
       .userImage {

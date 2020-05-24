@@ -32,7 +32,17 @@
                             >
                         </v-text-field>
                 </v-col>
-                <!-- serach button -->
+                <!-- filter -->
+                 <v-col>
+                    <v-select v-model="selectedFilter" @change="queryStackExchange"
+                        v-bind:class="{'theme--dark': darkMode}"
+                        :items="filters"
+                        filled
+                        placeholder="Filter by:"
+                        dense
+                    ></v-select>
+                </v-col>
+                <!-- search button -->
                 <v-col class="col-btn">
                     <v-btn class="search-btn" 
                         dark
@@ -53,7 +63,6 @@
 <script lang="ts">
     import Vue from "vue";
     import Questions from "./Questions.vue";
-import { log } from "util";
 
     const axios = require("axios");
 
@@ -70,20 +79,24 @@ import { log } from "util";
                 results: [],
                 page: 1,
                 limit: 5,
-                tags: ""
+                tags: "",
+                filters: ["relevance", "votes", "activity", "creation"],
+                selectedFilter: "relevance"
             }
         },
         methods: {
             queryStackExchange() {
                 let _this = this;
-                var cleanTags = this.tags.trim().replace(new RegExp(" ", "g"), ";").replace(new RegExp(",", "g"), ";");
+                 var cleanTags = this.tags.trim().replace(new RegExp(" ", "g"), ";").replace(new RegExp(",", "g"), ";");
                 
                 axios.get(
-                        "https://api.stackexchange.com/2.2/search/advanced?order=desc&sort=activity&site=stackoverflow"
+                        "https://api.stackexchange.com/2.2/search/advanced?order=desc&site=stackoverflow"
                         +"&page="+this.page
                         +"&pagesize="+this.limit
                         +"&q="+this.query
                         +"&tagged="+cleanTags
+                        +"&sort="+this.selectedFilter
+                        
                     ).then(function (response: any) {
                         _this.results = response.data.items
                     });
