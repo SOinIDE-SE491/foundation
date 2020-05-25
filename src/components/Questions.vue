@@ -70,7 +70,12 @@
           <div class="question">Q:{{ item.title }}</div>
         </a>
 
-        <div class="questionBody"> {{item.body}} 
+        <div class="questionBody"> 
+            <!--
+              To Display Text only:
+              {{item.body}} 
+              -->
+          <p><span v-html="item.body"></span></p>
         </div>
 
         <div class="userInfo">
