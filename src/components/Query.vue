@@ -90,6 +90,7 @@ export default Vue.extend({
       tags: "",
       filters: ["relevance", "votes", "activity", "creation"],
       selectedFilter: "relevance",
+      questionBody: null,
     };
   },
   methods: {
@@ -106,7 +107,7 @@ export default Vue.extend({
 
       axios
         .get(
-          "https://api.stackexchange.com/2.2/search/advanced?order=desc&site=stackoverflow" +
+          "https://api.stackexchange.com/2.2/search/advanced?order=desc&site=stackoverflow&filter=withbody" +
             "&page=" +
             this.page +
             "&pagesize=" +
