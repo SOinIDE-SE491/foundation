@@ -7,8 +7,9 @@ Vue.use(Vuetify);
 
 let v = new Vue({
     el: "#app",
+    vuetify: new Vuetify(),
     template: `
-    <div>
+    <div data-app>
         <Header v-on:changeMode="updateMode"/>
         <query :query=query :darkMode=darkMode></query>
     </div>

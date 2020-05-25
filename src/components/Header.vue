@@ -5,11 +5,15 @@
             <v-toolbar-title>{{ title }}</v-toolbar-title>
             <v-spacer></v-spacer>
 
-            <v-btn icon @click="toggleMode(), $emit('changeMode', darkMode)" >
-                <v-icon>mdi-theme-light-dark</v-icon>
-            </v-btn>
-
-            {{onMode}}
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on }"> 
+                    <v-btn icon @click="toggleMode(), $emit('changeMode', darkMode)" >
+                        <v-icon v-on="on">mdi-theme-light-dark</v-icon>
+                    </v-btn>
+                </template>
+                <span v-if="darkMode==true">Switch to Light mode</span>
+                <span v-else>Switch to Dark mode</span>
+            </v-tooltip>
 
         </v-toolbar>
     </div>  
@@ -44,6 +48,6 @@
 
 <style>  
     .header {
-        margin-top: 20px;
+        margin-top: 5px;
     }
 </style>
