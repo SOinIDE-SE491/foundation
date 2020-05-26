@@ -70,6 +70,14 @@
           <div class="question">Q:{{ item.title }}</div>
         </a>
 
+        <div class="questionBody"> 
+            <!--
+              To Display Text only:
+              {{item.body}} 
+              -->
+          <p><span v-html="item.body"></span></p>
+        </div>
+
         <div class="userInfo">
           <div class="questionDate">asked: {{ item.creation_date }}</div>
           <div class="userImage">
@@ -102,6 +110,7 @@ export default Vue.extend({
       answerIds: null,
       currentAnswer: 0,
       answer: null,
+      questionBody: null,
     };
   },
   methods: {
@@ -221,6 +230,16 @@ export default Vue.extend({
   padding-top: 5px;
 }
 
+.questionBody {
+  color: gray;
+  width: 100%;
+  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: top;
+  word-break: break-word;
+  padding-top: 5px;
+}
 .tags {
   font-size: 11px;
   margin-left: 20px;

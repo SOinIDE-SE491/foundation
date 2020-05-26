@@ -12,7 +12,7 @@
             autocomplete="off"
             placeholder="Enter Search Query"
             v-model="query"
-            v-on:keyup.enter="queryStackExchange"
+            v-on:keyup.enter="queryStackExchange(1)"
             id="input-search"
             append-icon="mdi-magnify"
             @click:append="queryStackExchange"
@@ -27,7 +27,7 @@
             dense
             autocomplete="off"
             v-model="tags"
-            v-on:keyup.enter="queryStackExchange"
+            v-on:keyup.enter="queryStackExchange(1)"
             append-icon="mdi-code-tags"
             placeholder="Enter tags"
           ></v-text-field>
@@ -36,7 +36,7 @@
         <v-col>
           <v-select
             v-model="selectedFilter"
-            @change="queryStackExchange"
+            @change="queryStackExchange(1)"
             v-bind:class="{ 'theme--dark': darkMode }"
             :items="filters"
             filled
@@ -50,7 +50,7 @@
             class="search-btn"
             dark
             color="#0077b6"
-            @click="queryStackExchange"
+            @click="queryStackExchange(1)"
             >Search</v-btn
           >
         </v-col>
@@ -90,6 +90,7 @@ export default Vue.extend({
       tags: "",
       filters: ["relevance", "votes", "activity", "creation"],
       selectedFilter: "relevance",
+      questionBody: null,
     };
   },
   methods: {
@@ -106,7 +107,7 @@ export default Vue.extend({
 
       axios
         .get(
-          "https://api.stackexchange.com/2.2/search/advanced?order=desc&site=stackoverflow" +
+          "https://api.stackexchange.com/2.2/search/advanced?order=desc&site=stackoverflow&filter=withbody" +
             "&page=" +
             this.page +
             "&pagesize=" +
