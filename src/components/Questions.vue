@@ -117,15 +117,14 @@
         <v-tooltip right>
           <template v-slot:activator="{ on }">
             <div v-on="on" class="eyeIcon">
-                <button v-on:click="isHidden = !isHidden">
-                  <svg class="bi bi-eye-fill" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                    <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                  </svg>
-                </button>
+                <div v-on:click="isHidden = !isHidden">
+                  <v-icon v-if="isHidden==true" color="rgb(94, 186, 125)">mdi-eye</v-icon>
+                  <v-icon v-else color="rgb(94, 186, 125)">mdi-eye-off</v-icon>
+                </div>
             </div>
           </template>
-        <span>See entire question</span>
+        <span v-if="isHidden==true">See full question</span>
+        <span v-else>Close question</span>
         </v-tooltip>
       </div>
 
@@ -255,24 +254,22 @@ export default Vue.extend({
           return time;
     }
   },
-  watch: {
-    // whenever answer changes, this function will run
-    wrapAnswer: function() {
-      console.log('answer is changed...');
+  watch: {},
+
+  computed: {
+    computed(): string {
+      return "";
+    },
+  },
+  beforeUpdate() {
       let _this = this
       if (this.answer != null) {
           var tmp = this.answer;
           this.answer = tmp.replace(new RegExp("<pre><code>", "g"), "<div class='card-raw-html'><div id='btn-id' id='copy-btn' class='copy-insert-btn'><button id='copy-btn' type='button' class='check v-btn v-btn--contained theme--dark v-size--small' style='margin-right:10px;'>Copy</button><button id='insert-btn' type='button' class='check v-btn v-btn--contained theme--dark v-size--small'>Insert</button></div><pre style='white-space: pre-wrap;'><code>")
                            .replace(new RegExp("</code></pre>", "g"), "</code></pre></div>");
       }
-    }, 
+    
   },
-  computed: {
-    computed(): string {
-      return "";
-    },
-  },
-  beforeMount() {},
   updated() {  
     console.log('updated');
     let _this = this;
@@ -429,12 +426,8 @@ export default Vue.extend({
 .eyeIcon {
   border-radius: 3px;
   padding: 2px;
-  margin-top: 10px;
-  color: rgb(94, 186, 125);
-  font-size: 11px;
-}
-.eyeIcon:hover {
-  color: #f48024;
+  margin-top: 5px;
+  cursor: pointer;
 }
 
 .question {
