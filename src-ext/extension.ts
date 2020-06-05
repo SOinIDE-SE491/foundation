@@ -27,6 +27,48 @@ export function activate(context: vscode.ExtensionContext) {
           panel.webview.html = getTemplate(context.extensionPath, query);
           // Can't seem to get this working, so set query in data attribute as work around atm
           //panel.webview.postMessage(JSON.stringify({"query": query}));
+
+          // declare text editor
+          let textEditor = vscode.window.activeTextEditor;
+          vscode.window.onDidChangeActiveTextEditor(event => {
+            console.log('----- On change text editor -----');
+            console.log('* Event...');
+            console.log(event);
+            if (event !== undefined) {
+                textEditor = event;
+            }
+            console.log('* Change to...');
+            console.log(textEditor);
+            console.log('--------------------------------');
+          });
+
+          // Handle messages from the webview
+          panel.webview.onDidReceiveMessage(message => {
+            console.log('----- Received MSG from WebView -----');
+            console.log(message);
+              switch (message.type) {
+                case 'insert':                  
+                  // Ignore if no active TextEditor
+                  if (!textEditor) {
+                    vscode.window.showErrorMessage('NOT FOUND editor');
+                    return false;
+                  } else {
+                    // vscode.window.showInformationMessage(message.text);
+                    // Create an edit to insert into the document
+                    let edits = [ vscode.TextEdit.insert(textEditor.selection.active, message.text) ];
+                    // Insert the text
+                    let uri = textEditor.document.uri;
+                    let edit = new vscode.WorkspaceEdit();
+                    edit.set(uri, edits);
+                    vscode.workspace.applyEdit(edit);
+                  }
+                  console.log('--------------------------------');
+                  return;
+              }
+            },
+            undefined,
+            context.subscriptions
+            );
         });
     });
 
