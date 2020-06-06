@@ -19,14 +19,14 @@
 		],
 		"baseUrl": ".",
 		"sourceMap": true,
-		"rootDir": "src-ext",
 		"strict": true,
 		"noUnusedParameters": true,
-	},
-	"paths": {
-		"@/*": [
-		  "src/*"
-		]
+		"paths": {
+			"@/*": [
+			  "src/*",
+			  "src-ext/*"
+			]
+		},
 	},
 	"include": [
 		"src-ext/extension.ts"

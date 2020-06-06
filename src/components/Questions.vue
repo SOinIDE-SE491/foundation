@@ -86,58 +86,57 @@
 
     <hr id="hrTop" />
     <div
-      v-if="qid == null"
-      class="questionContainer"
-      v-for="item in results"
-      :key="item.question_id"
-    >
-      <div class="questionStats">
-        <div class="votes">
-          <strong class="votesScore">{{ item.score }}</strong>
-          <div class="votesTag">votes</div>
-        </div>
-        <v-tooltip right>
-          <template v-slot:activator="{ on }">
-            <div
-              class="answers"
-              v-on="on"
+      v-if="qid == null">
+      <div
+        class="questionContainer"
+        v-for="item in results"
+        :key="item.question_id"
+      >
+      
+        <div class="questionStats">
+          <div class="votes">
+            <strong class="votesScore">{{ item.score }}</strong>
+            <div class="votesTag">votes</div>
+          </div>
+          <v-tooltip right>
+            <template v-slot:activator="{ on }">
+              <div class="answers" v-on="on"
               v-on:click="
-                  qid = item.question_id;
-                  question = item.title;
-                  currentAnswer = 0;
-                  getAnswerIds(item.question_id);
-                "
-            >
-              <strong class="answersScore">{{ item.answer_count }}</strong>
-              <div class="answersTag">answers</div>
-            </div>
-          </template>
-          <span>See all answers</span>
-        </v-tooltip>
-        <div class="views">
-          <div>{{ item.view_count }}</div>
-          <div>views</div>
-        </div>
-        <v-tooltip right>
-          <template v-slot:activator="{ on }">
-            <div v-on="on" class="eyeIcon">
-              <div v-on:click="isHidden = !isHidden">
-                <v-icon v-if="isHidden==true" color="rgb(94, 186, 125)">mdi-eye</v-icon>
-                <v-icon v-else color="rgb(94, 186, 125)">mdi-eye-off</v-icon>
+                    qid = item.question_id;
+                    question = item.title;
+                    currentAnswer = 0;
+                    getAnswerIds(item.question_id);
+                  ">
+                <strong class="answersScore"
+                  >{{ item.answer_count }}</strong
+                >
+                <div class="answersTag">answers</div>
               </div>
-            </div>
-          </template>
+            </template>
+            <span>See all answers</span>
+          </v-tooltip>
+          <div class="views">
+            <div>{{ item.view_count }}</div>
+            <div>views</div>
+          </div>
+          <v-tooltip right>
+            <template v-slot:activator="{ on }">
+              <div v-on="on" class="eyeIcon">
+                  <div v-on:click="isHidden = !isHidden">
+                    <v-icon v-if="isHidden==true" color="rgb(94, 186, 125)">mdi-eye</v-icon>
+                    <v-icon v-else color="rgb(94, 186, 125)">mdi-eye-off</v-icon>
+                  </div>
+              </div>
+            </template>
           <span v-if="isHidden==true">See full question</span>
           <span v-else>Close question</span>
-        </v-tooltip>
-      </div>
+          </v-tooltip>
+        </div>
 
-      <div class="summary">
-        <div style="display:block;">
+        <div class="summary">
+          <div style="display:block;">
           <a :href="item.link">
-            <div class="question">
-              <strong>Q: {{ item.title }}</strong>
-            </div>
+            <div class="question"><strong>Q: {{ item.title }}</strong></div>
           </a>
           <div class="userInfoQuestion">
             <div class="questionDate">asked: {{ parseDate(item.creation_date) }}</div>
