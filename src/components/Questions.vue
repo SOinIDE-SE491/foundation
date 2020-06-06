@@ -182,7 +182,8 @@ export default Vue.extend({
       snackbarText: "Copied To Clipboard",
       snackbar: false,
       timeout: 5000,
-      isHidden: true
+      isHidden: true,
+      vscode: null
     };
   },
   methods: {
@@ -231,7 +232,6 @@ export default Vue.extend({
         });
     },
     copyToClipboard: function(event: any) {    
-                console.log(event);
                 var text = event.path[2].getElementsByTagName('code')[0].innerText;
                 var dummy = document.createElement("textarea"); 
                 document.body.appendChild(dummy);
@@ -239,6 +239,7 @@ export default Vue.extend({
                 dummy.select();
                 document.execCommand("copy");
                 document.body.removeChild(dummy);
+                this.snackbarText = "Copied To Clipboard";
                 this.snackbar = true;
     },  
     parseDate: function(timestamp: any) {
@@ -252,7 +253,14 @@ export default Vue.extend({
           var time = month + ' ' + date + ' \'' + year + ' ' + ' at ' + hour + ':' + min ;
           
           return time;
-    }
+    },
+    insertToWorkspace: function(event: any) {
+                var text = event.path[2].getElementsByTagName('code')[0].innerText;
+                // send text to vscode
+                this.vscode.postMessage({ type: 'insert', text: text });
+                this.snackbarText = "Inserted To TextEditor"
+                this.snackbar = true;
+    } 
   },
   watch: {},
 
@@ -261,6 +269,9 @@ export default Vue.extend({
       return "";
     },
   },
+  mounted() {
+    this.vscode = acquireVsCodeApi();
+  },
   beforeUpdate() {
       let _this = this
       if (this.answer != null) {
@@ -268,20 +279,20 @@ export default Vue.extend({
           this.answer = tmp.replace(new RegExp("<pre><code>", "g"), "<div class='card-raw-html'><div id='btn-id' id='copy-btn' class='copy-insert-btn'><button id='copy-btn' type='button' class='check v-btn v-btn--contained theme--dark v-size--small' style='margin-right:10px;'>Copy</button><button id='insert-btn' type='button' class='check v-btn v-btn--contained theme--dark v-size--small'>Insert</button></div><pre style='white-space: pre-wrap;'><code>")
                            .replace(new RegExp("</code></pre>", "g"), "</code></pre></div>");
       }
-    
   },
   updated() {  
-    console.log('updated');
     let _this = this;
     var buttons = document.getElementsByTagName('button');
     Array.from(buttons).forEach((button) => {
           if (button.id == 'copy-btn') {
-              console.log(button.id);
               button.onclick = function(e) {
-                  console.log(this);
                   _this.copyToClipboard(e);
               }
-          }   
+          } else if (button.id == 'insert-btn') {
+              button.onclick = function(e) {
+                  _this.insertToWorkspace(e);
+              }
+          } 
     })
   },
 });

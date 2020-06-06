@@ -27,6 +27,41 @@ export function activate(context: vscode.ExtensionContext) {
           panel.webview.html = getTemplate(context.extensionPath, query);
           // Can't seem to get this working, so set query in data attribute as work around atm
           //panel.webview.postMessage(JSON.stringify({"query": query}));
+
+          // declare text editor
+          let textEditor = vscode.window.activeTextEditor;
+
+          // look for an active texteditor
+          vscode.window.onDidChangeActiveTextEditor(event => {
+            if (event !== undefined) {
+                textEditor = event;
+            }
+          });
+
+          // Handle messages from the webview
+          panel.webview.onDidReceiveMessage(message => {
+            console.log('----- Received MSG from WebView -----');
+              switch (message.type) {
+                case 'insert':                  
+                  // Ignore if no active TextEditor
+                  if (!textEditor) {
+                    vscode.window.showErrorMessage('Not found texteditor!');
+                    return false;
+                  } else {
+                    // Create an edit to insert into the document
+                    let edits = [ vscode.TextEdit.insert(textEditor.selection.active, message.text) ];
+                    // Insert the text
+                    let uri = textEditor.document.uri;
+                    let edit = new vscode.WorkspaceEdit();
+                    edit.set(uri, edits);
+                    vscode.workspace.applyEdit(edit);
+                  }
+                  return;
+              }
+            },
+            undefined,
+            context.subscriptions
+            );
         });
     });
 
