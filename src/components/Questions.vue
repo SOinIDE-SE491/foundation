@@ -98,6 +98,7 @@
             <strong class="votesScore">{{ item.score }}</strong>
             <div class="votesTag">votes</div>
           </div>
+          <favorite :question_id=item.question_id :vscode=vscode></favorite>
           <v-tooltip right>
             <template v-slot:activator="{ on }">
               <div class="answers" v-on="on"
@@ -290,12 +291,6 @@ export default Vue.extend({
     }
   },
   watch: {},
-
-  computed: {
-    computed(): string {
-      return "";
-    }
-  },
   mounted() {
     // this.vscode = acquireVsCodeApi();
   },
