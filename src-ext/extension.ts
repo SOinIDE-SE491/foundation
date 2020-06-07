@@ -101,9 +101,9 @@ const manageHistory = (newQuery: string, context: any) => {
     existingHistory.push(newQuery);
   }
 
-  if (existingHistory.length > 3) {
+  if (existingHistory.length > 10) {
     existingHistory = existingHistory.slice(
-      existingHistory.length - 3,
+      existingHistory.length - 10,
       existingHistory.length
     );
   }
