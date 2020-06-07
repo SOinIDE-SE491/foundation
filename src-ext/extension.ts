@@ -13,7 +13,11 @@ export function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand(
     "stackoverflow-ide.run",
     () => {
-      const searchHistoryList: any = context.globalState.get("search");
+      // console.log(`history: ${context.globalState.get("history")}`);
+      if (context.globalState.get("history") == undefined) {
+        context.globalState.update("history", []);
+      }
+      const searchHistoryList: any = context.globalState.get("history");
       let searchPrompt = "";
 
       if (searchHistoryList === null) {
@@ -92,7 +96,7 @@ export function activate(context: vscode.ExtensionContext) {
 export function deactivate() {}
 
 const manageHistory = (newQuery: string, context: any) => {
-  let existingHistory = context.globalState.get("search");
+  let existingHistory = context.globalState.get("history");
   if (existingHistory === null) {
     existingHistory = [];
   }
@@ -107,7 +111,7 @@ const manageHistory = (newQuery: string, context: any) => {
     );
   }
 
-  context.globalState.update("search", existingHistory);
+  context.globalState.update("history", existingHistory);
 };
 
 function getTemplate(extensionPath: string, query: any) {
