@@ -12,7 +12,6 @@
             autocomplete="off"
             placeholder="Enter Search Query"
             v-model="query"
-            v-on:keyup.enter="queryStackExchange(1)"
             id="input-search"
             append-icon="mdi-magnify"
             @click:append="queryStackExchange"
@@ -46,27 +45,17 @@
         </v-col>
         <!-- search button -->
         <v-col class="col-btn">
-          <v-btn
-            class="search-btn"
-            dark
-            color="#0077b6"
-            @click="queryStackExchange(1)"
-            >Search</v-btn
-          >
+          <v-btn class="search-btn" dark color="#0077b6" @click="queryStackExchange(1)">Search</v-btn>
         </v-col>
       </v-row>
       <!-- pagination -->
       <v-row class="results-pages">
-        <v-btn class="p-page-btn" dark color="#0077b6" v-on:click="previous"
-          >Previous Page</v-btn
-        >
-        <v-btn class="n-page-btn" dark color="#0077b6" v-on:click="next"
-          >Next Page</v-btn
-        >
+        <v-btn class="p-page-btn" dark color="#0077b6" v-on:click="previous">Previous Page</v-btn>
+        <v-btn class="n-page-btn" dark color="#0077b6" v-on:click="next">Next Page</v-btn>
       </v-row>
     </div>
     <div>
-      <questions :results="results"></questions>
+      <questions :results="results" :vscode="vscode"></questions>
     </div>
   </div>
 </template>
@@ -79,7 +68,7 @@ const axios = require("axios");
 
 export default Vue.extend({
   components: {
-    Questions,
+    Questions
   },
   props: ["query", "darkMode"],
   data() {
@@ -90,11 +79,12 @@ export default Vue.extend({
       tags: "",
       filters: ["relevance", "votes", "activity", "creation"],
       selectedFilter: "relevance",
-      questionBody: null,
+      questionBody: null
     };
   },
   methods: {
     queryStackExchange(page?: number) {
+      this.addQueryToHistory();
       let _this = this;
       //TODO: support specific page calls
       if (page) {
@@ -133,12 +123,17 @@ export default Vue.extend({
       }
       this.queryStackExchange();
     },
+    addQueryToHistory: function() {
+      // send text to vscode
+      this.vscode.postMessage({ type: "query", text: this.query });
+    }
   },
   mounted: function() {
+    this.vscode = acquireVsCodeApi();
     if (this.query != "") {
       this.queryStackExchange();
     }
-  },
+  }
 });
 </script>
 
