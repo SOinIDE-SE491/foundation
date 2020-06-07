@@ -169,9 +169,13 @@
 
 <script lang="ts">
 import Vue from "vue";
+import Favorite from "./Favorite.vue";
 const axios = require("axios");
 
 export default Vue.extend({
+  components: {
+    Favorite,
+  },
   props: ["results", "vscode"],
   data() {
     return {

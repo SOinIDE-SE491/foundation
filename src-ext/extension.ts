@@ -77,14 +77,14 @@ export function activate(context: vscode.ExtensionContext) {
                   manageHistory(message.text, context);
                   return;
                 case 'favorite':
-                  console.log(message.text);
                   // Get list of Favorites from global state, default empty array
-                  let favorites = context.globalState.get('favorites', []);
+                  let favorites = Array();
+                  favorites = context.globalState.get('favorites', favorites);
 
                   // message.text should equal the question_id
                   if (favorites.includes(message.text)) {
                     // Remove from Favorites
-                    favorites = favorites.filter(e => e != message.text);
+                    favorites = favorites.filter(e => e !== message.text);
                   } else {
                     // Add to Favorites
                     favorites.push(message.text);

@@ -26,7 +26,6 @@ let v = new Vue({
         updateMode(mode) {
             this.darkMode = mode;
             // console.log(this.darkMode);
-            
         }
     },
     beforeMount: function(){
