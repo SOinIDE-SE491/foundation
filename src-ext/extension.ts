@@ -13,11 +13,7 @@ export function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand(
     "stackoverflow-ide.run",
     () => {
-      // console.log(`history: ${context.globalState.get("history")}`);
-      if (context.globalState.get("history") == undefined) {
-        context.globalState.update("history", []);
-      }
-      const searchHistoryList: any = context.globalState.get("history");
+      const searchHistoryList: any = context.globalState.get("history", []);
       let searchPrompt = "";
 
       if (searchHistoryList === null) {
@@ -33,70 +29,70 @@ export function activate(context: vscode.ExtensionContext) {
         prompt: searchPrompt,
         placeHolder: "Enter question here:",
       });
-        input.then((query) => {
-          const panel = vscode.window.createWebviewPanel(
-            "StackOverflow",
-            "StackOverflow IDE",
-            vscode.ViewColumn.Beside,
-            { enableScripts: true }
-          );
-          // Get list of Favorites from global state, default empty array
-          let favorites = Array();
-          favorites = context.globalState.get('favorites', favorites);
+      input.then((query) => {
+        const panel = vscode.window.createWebviewPanel(
+          "StackOverflow",
+          "StackOverflow IDE",
+          vscode.ViewColumn.Beside,
+          { enableScripts: true }
+        );
+        // Get list of Favorites from global state, default empty array
+        let favorites = Array();
+        favorites = context.globalState.get('favorites', favorites);
 
-          panel.webview.html = getTemplate(context.extensionPath, query, favorites);
+        panel.webview.html = getTemplate(context.extensionPath, query, favorites);
 
-          // declare text editor
-          let textEditor = vscode.window.activeTextEditor;
+        // declare text editor
+        let textEditor = vscode.window.activeTextEditor;
 
-          // look for an active texteditor
-          vscode.window.onDidChangeActiveTextEditor(event => {
-            if (event !== undefined) {
-                textEditor = event;
-            }
-          });
-
-          // Handle messages from the webview
-          panel.webview.onDidReceiveMessage(message => {
-            console.log('----- Received MSG from WebView -----');
-              switch (message.type) {
-                case 'insert':
-                  // Ignore if no active TextEditor
-                  if (!textEditor) {
-                    vscode.window.showErrorMessage('Not found texteditor!');
-                    return false;
-                  } else {
-                    // Create an edit to insert into the document
-                    let edits = [ vscode.TextEdit.insert(textEditor.selection.active, message.text) ];
-                    // Insert the text
-                    let uri = textEditor.document.uri;
-                    let edit = new vscode.WorkspaceEdit();
-                    edit.set(uri, edits);
-                    vscode.workspace.applyEdit(edit);
-                  }
-                  return;
-                case "query":
-                  manageHistory(message.text, context);
-                  return;
-                case 'favorite':
-                  // message.text should equal the question_id
-                  if (favorites.includes(message.text)) {
-                    // Remove from Favorites
-                    favorites = favorites.filter(e => e !== message.text);
-                  } else {
-                    // Add to Favorites
-                    favorites.push(message.text);
-                  }
-
-                  // Persist favorites to global state
-                  context.globalState.update('favorites', favorites);
-                  return;
-              }
-            },
-            undefined,
-            context.subscriptions
-            );
+        // look for an active texteditor
+        vscode.window.onDidChangeActiveTextEditor(event => {
+          if (event !== undefined) {
+              textEditor = event;
+          }
         });
+
+        // Handle messages from the webview
+        panel.webview.onDidReceiveMessage(message => {
+          console.log('----- Received MSG from WebView -----');
+            switch (message.type) {
+              case 'insert':
+                // Ignore if no active TextEditor
+                if (!textEditor) {
+                  vscode.window.showErrorMessage('Not found texteditor!');
+                  return false;
+                } else {
+                  // Create an edit to insert into the document
+                  let edits = [ vscode.TextEdit.insert(textEditor.selection.active, message.text) ];
+                  // Insert the text
+                  let uri = textEditor.document.uri;
+                  let edit = new vscode.WorkspaceEdit();
+                  edit.set(uri, edits);
+                  vscode.workspace.applyEdit(edit);
+                }
+                return;
+              case "query":
+                manageHistory(message.text, context);
+                return;
+              case 'favorite':
+                // message.text should equal the question_id
+                if (favorites.includes(message.text)) {
+                  // Remove from Favorites
+                  favorites = favorites.filter(e => e !== message.text);
+                } else {
+                  // Add to Favorites
+                  favorites.push(message.text);
+                }
+
+                // Persist favorites to global state
+                context.globalState.update('favorites', favorites);
+                return;
+            }
+          },
+          undefined,
+          context.subscriptions
+          );
+      });
     }
   );
 

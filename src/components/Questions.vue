@@ -197,8 +197,7 @@ export default Vue.extend({
       snackbarText: "Copied To Clipboard",
       snackbar: false,
       timeout: 5000,
-      isHidden: true,
-      vscode: null
+      isHidden: true
     };
   },
   methods: {

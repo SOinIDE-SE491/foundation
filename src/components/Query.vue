@@ -79,7 +79,8 @@ export default Vue.extend({
       tags: "",
       filters: ["relevance", "votes", "activity", "creation"],
       selectedFilter: "relevance",
-      questionBody: null
+      questionBody: null,
+      vscode: null
     };
   },
   methods: {
@@ -131,7 +132,7 @@ export default Vue.extend({
   mounted: function() {
     this.vscode = acquireVsCodeApi();
     if (this.query != "") {
-      this.queryStackExchange();
+      this.queryStackExchange(1);
     }
   }
 });

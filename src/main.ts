@@ -26,12 +26,10 @@ let v = new Vue({
     methods: {
         updateMode(mode) {
             this.darkMode = mode;
-            // console.log(this.darkMode);
         }
     },
     beforeMount: function(){
         this.query = this.$el.attributes['data-query'].value;
         this.favorites = this.$el.attributes['data-favorites'].value;
-        console.log(this.favorites);
     }
 });
