@@ -91,6 +91,7 @@ export default Vue.extend({
       if (page) {
         _this.page = page;
       }
+      console.log(page);
       var cleanTags = this.tags
         .trim()
         .replace(new RegExp(" ", "g"), ";")

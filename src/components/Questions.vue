@@ -85,8 +85,7 @@
     <!-- End Answers Section -->
 
     <hr id="hrTop" />
-    <div
-      v-if="qid == null">
+    <div v-if="qid == null">
       <div
         class="questionContainer"
         v-for="item in results"
@@ -161,6 +160,7 @@
           <p>
             <span v-html="item.body"></span>
           </p>
+          </div>
         </div>
       </div>
     </div>
