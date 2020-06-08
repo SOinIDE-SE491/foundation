@@ -21,9 +21,12 @@ For example if there is an image subfolder under your extension project workspac
 
 ## Running Instructions 
 
-```npm install``
+Ensure that package manager is up to date
+
+```npm install```
 
 Compiling the project
+
 ```npm run compile```
 
 Start Debugging
@@ -31,8 +34,11 @@ Start Debugging
 `Press F5` or `Run -> Start Debugging`
 
 DUE TO CURRENT DEVLOPMENT ISSUE
+
 `In terminal window, change shell to Task -watch`
+
 `press CTRL-C`
+
 `Extension Development Host will open`
 
 View command Pallete
