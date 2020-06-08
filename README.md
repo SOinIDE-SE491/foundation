@@ -13,11 +13,11 @@ StackOverflow IDE is a VS-Code extension that allows you to search for questions
 
 For example if there is an image subfolder under your extension project workspace:
 
-![stackoverflow_ide_homepage\](images/stackoverflow_ide_homepage.png)
+![stackoverflow_ide_homepage](images/stackoverflow_ide_homepage.png)
 
-![stackoverflow_ide_answers\](images/stackoverflow_ide_answers.png)
+![stackoverflow_ide_answers](images/stackoverflow_ide_answers.png)
 
-![stackoverflow_ide_overview\](images/stackoverflow_ide_overview.gif)
+![stackoverflow_ide_overview](images/stackoverflow_ide_overview.gif)
 
 ## Running Instructions (Command Line)
 
