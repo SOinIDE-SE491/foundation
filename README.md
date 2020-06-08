@@ -1,4 +1,11 @@
-# Stack Overflow VS-Code Extension README
+# Stack Overflow VS-Code Extension [![Build Status](https://travis-ci.com/SOinIDE-SE491/foundation.svg?branch=master)](https://travis-ci.org/SOinIDE-SE491/foundation)
+
+### Team Members
+1. Bright Phakamad
+2. Marko Milosavljevic
+3. Pedro Rebollar
+4. Price Shoemaker
+5. David Bergunder
 
 ## Features
 
@@ -6,13 +13,13 @@ StackOverflow IDE is a VS-Code extension that allows you to search for questions
 
 For example if there is an image subfolder under your extension project workspace:
 
-\!\[stackoverflow_ide_homepage\]\(images/stackoverflow_ide_homepage.png\)
+![stackoverflow_ide_homepage\](images/stackoverflow_ide_homepage.png)
 
-\!\[stackoverflow_ide_homepage\]\(images/stackoverflow_ide_answers.png\)
+![stackoverflow_ide_answers\](images/stackoverflow_ide_answers.png)
 
-\!\[stackoverflow_ide_homepage\]\(images/stackoverflow_ide_overview.gif\)
+![stackoverflow_ide_overview\](images/stackoverflow_ide_overview.gif)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Running Instructions (Command Line)
 
 ## Known Issues
 
