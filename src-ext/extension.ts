@@ -40,9 +40,11 @@ export function activate(context: vscode.ExtensionContext) {
             vscode.ViewColumn.Beside,
             { enableScripts: true }
           );
-          panel.webview.html = getTemplate(context.extensionPath, query);
-          // Can't seem to get this working, so set query in data attribute as work around atm
-          //panel.webview.postMessage(JSON.stringify({"query": query}));
+          // Get list of Favorites from global state, default empty array
+          let favorites = Array();
+          favorites = context.globalState.get('favorites', favorites);
+
+          panel.webview.html = getTemplate(context.extensionPath, query, favorites);
 
           // declare text editor
           let textEditor = vscode.window.activeTextEditor;
@@ -77,10 +79,6 @@ export function activate(context: vscode.ExtensionContext) {
                   manageHistory(message.text, context);
                   return;
                 case 'favorite':
-                  // Get list of Favorites from global state, default empty array
-                  let favorites = Array();
-                  favorites = context.globalState.get('favorites', favorites);
-
                   // message.text should equal the question_id
                   if (favorites.includes(message.text)) {
                     // Remove from Favorites
@@ -159,7 +157,7 @@ const manageHistory = (newQuery: string, context: any) => {
   context.globalState.update("history", existingHistory);
 };
 
-function getTemplate(extensionPath: string, query: any) {
+function getTemplate(extensionPath: string, query: any, favorites: any) {
   const script = vscode.Uri.file(
     path.join(extensionPath, "dist", "js", "app.js")
   );
@@ -186,7 +184,10 @@ function getTemplate(extensionPath: string, query: any) {
 </head>
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="app" data-query="${query}"></div>
+  <div id="app"
+    data-query="${query}"
+    data-favorites="${favorites}">
+  </div>
   <script src="${scriptPath}"></script>
 </body>
 </html>`;

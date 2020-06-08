@@ -55,7 +55,7 @@
       </v-row>
     </div>
     <div>
-      <questions :results="results" :vscode="vscode"></questions>
+      <questions :results="results" :vscode="vscode" :favorites="favorites"></questions>
     </div>
   </div>
 </template>
@@ -70,7 +70,7 @@ export default Vue.extend({
   components: {
     Questions
   },
-  props: ["query", "darkMode"],
+  props: ["query", "darkMode", "favorites"],
   data() {
     return {
       results: [],

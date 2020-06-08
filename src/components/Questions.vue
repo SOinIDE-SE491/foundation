@@ -98,7 +98,7 @@
             <strong class="votesScore">{{ item.score }}</strong>
             <div class="votesTag">votes</div>
           </div>
-          <favorite :question_id=item.question_id :vscode=vscode></favorite>
+          <favorite :question_id=item.question_id :is_favorite=isFavorite(item.question_id) :vscode=vscode></favorite>
           <v-tooltip right>
             <template v-slot:activator="{ on }">
               <div class="answers" v-on="on"
@@ -176,7 +176,7 @@ export default Vue.extend({
   components: {
     Favorite,
   },
-  props: ["results", "vscode"],
+  props: ["results", "vscode", "favorites"],
   data() {
     return {
       qid: null,
@@ -292,9 +292,11 @@ export default Vue.extend({
       this.vscode.postMessage({ type: "insert", text: text });
       this.snackbarText = "Inserted To TextEditor";
       this.snackbar = true;
+    },
+    isFavorite: function(question_id: Number) {
+      return this.favorites.includes(question_id);
     }
   },
-  watch: {},
   mounted() {
     // this.vscode = acquireVsCodeApi();
   },

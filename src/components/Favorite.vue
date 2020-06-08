@@ -2,12 +2,12 @@
     <div class="favorite">
         <div v-if="isFavorite()">
             <v-btn icon @click="setFavorite()">
-                <v-icon color="yellow lighten-2">mdi-heart</v-icon>
+                <v-icon color="yellow">mdi-heart</v-icon>
             </v-btn>
         </div>
         <div v-else>
             <v-btn icon  @click="setFavorite()">
-                <v-icon color="blue-grey darken-2">mdi-heart</v-icon>
+                <v-icon>mdi-heart</v-icon>
             </v-btn>
         </div>
     </div>
@@ -19,6 +19,7 @@ import Vue from "vue";
 export default Vue.extend({
   props: {
       question_id: Number,
+      is_favorite: Boolean,
       vscode: Object
   },
   data() {
@@ -28,25 +29,17 @@ export default Vue.extend({
   },
   methods: {
     isFavorite(): boolean {
-        return true;
         return this.favorite;
     },
     setFavorite() {
       // Send to extension parent window to persist data
       this.vscode.postMessage({ type: 'favorite', text: this.question_id });
-
-      if (this.isFavorite()) {
-          this.favorite = false;
-      } else {
-        this.favorite = true;
-      }
-      this.$forceUpdate();
-      return;
+      this.favorite = !this.favorite;
     }
   },
-    mounted() {
+  created() {
       //Initialize favorites listing
-      this.favorite = false;
+      this.favorite = this.is_favorite;
   }
 })
 </script>
