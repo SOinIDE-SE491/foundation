@@ -19,7 +19,29 @@ For example if there is an image subfolder under your extension project workspac
 
 ![stackoverflow_ide_overview](images/stackoverflow_ide_overview.gif)
 
-## Running Instructions (Command Line)
+## Running Instructions 
+
+```npm install``
+
+Compiling the project
+```npm run compile```
+
+Start Debugging
+
+`Press F5` or `Run -> Start Debugging`
+
+DUE TO CURRENT DEVLOPMENT ISSUE
+`In terminal window, change shell to Task -watch`
+`press CTRL-C`
+`Extension Development Host will open`
+
+View command Pallete
+`View -> Command Pallette`
+
+Select Stackoverflow IDE
+
+Enjoy!
+
 
 ## Known Issues
 
