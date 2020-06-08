@@ -1,51 +1,64 @@
-# stackoverflow-ide README
+# Stack Overflow VS-Code Extension [![Build Status](https://travis-ci.com/SOinIDE-SE491/foundation.svg?branch=master)](https://travis-ci.org/SOinIDE-SE491/foundation)
 
-This is the README for your extension "stackoverflow-ide". After writing up a brief description, we recommend including the following sections.
+### Team Members
+1. Bright Phakamad
+2. Marko Milosavljevic
+3. Pedro Rebollar
+4. Price Shoemaker
+5. David Bergunder
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+StackOverflow IDE is a VS-Code extension that allows you to search for questions in StackOverflow and insert them directly into your code. You're able to paginate through questions, answers, copy and insert code, and favorite your questions. Light & Dark Mode is offered as well depending on your IDE preference. 
 
 For example if there is an image subfolder under your extension project workspace:
 
-\!\[feature X\]\(images/feature-x.png\)
+![stackoverflow_ide_homepage](images/stackoverflow_ide_homepage.png)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+![stackoverflow_ide_answers](images/stackoverflow_ide_answers.png)
 
-## Requirements
+![stackoverflow_ide_overview](images/stackoverflow_ide_overview.gif)
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## Running Instructions 
 
-## Extension Settings
+Ensure that package manager is up to date
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+```npm install```
 
-For example:
+Compiling the project
 
-This extension contributes the following settings:
+```npm run compile```
 
-- `myExtension.enable`: enable/disable this extension
-- `myExtension.thing`: set to `blah` to do something
+Start Debugging
+
+`Press F5` or `Run -> Start Debugging`
+
+DUE TO CURRENT DEVLOPMENT ISSUE:
+
+    In terminal window, change shell to Task -watch
+    press CTRL-C
+    Extension Development Host will open
+
+View command Pallete
+
+`View -> Command Pallette`
+
+Select Stackoverflow IDE
+
+Enjoy!
+
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+Currently have to 'CTRL-C' in the watch terminal window before entering DeBugging mode. After that, extension Devleopment Host window will Appear.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+Initial release into markeplace
 
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Initial release of Stackoverflow IDE
 
 ---
 
@@ -62,8 +75,3 @@ Added features X, Y, and Z.
 - [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
 - [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
-**Enjoy!**
-
-# Pagination
-
-Testing pagination branch
