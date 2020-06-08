@@ -1,16 +1,10 @@
 <template>
-    <div class="favorite">
-        <div v-if="isFavorite()">
-            <v-btn icon @click="setFavorite()">
-                <v-icon color="yellow">mdi-heart</v-icon>
-            </v-btn>
-        </div>
-        <div v-else>
-            <v-btn icon  @click="setFavorite()">
-                <v-icon>mdi-heart</v-icon>
-            </v-btn>
-        </div>
-    </div>
+  <div v-if="isFavorite()">
+    <v-icon @click="setFavorite()" color="rgb(255,255,0)">mdi-heart</v-icon>
+  </div>
+  <div v-else>
+    <v-icon @click="setFavorite()" color="rgb(211,211,211)">mdi-heart</v-icon>
+  </div>
 </template>
 
 <script lang="ts">
