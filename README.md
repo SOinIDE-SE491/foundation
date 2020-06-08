@@ -1,51 +1,28 @@
-# stackoverflow-ide README
-
-This is the README for your extension "stackoverflow-ide". After writing up a brief description, we recommend including the following sections.
+# Stack Overflow VS-Code Extension README
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+StackOverflow IDE is a VS-Code extension that allows you to search for questions in StackOverflow and insert them directly into your code. You're able to paginate through questions, answers, copy and insert code, and favorite your questions. Light & Dark Mode is offered as well depending on your IDE preference. 
 
 For example if there is an image subfolder under your extension project workspace:
 
-\!\[feature X\]\(images/feature-x.png\)
+\!\[stackoverflow_ide_homepage\]\(images/stackoverflow_ide_homepage.png\)
+
+\!\[stackoverflow_ide_homepage\]\(images/stackoverflow_ide_answers.png\)
 
 > Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-- `myExtension.enable`: enable/disable this extension
-- `myExtension.thing`: set to `blah` to do something
-
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+Currently have to 'CTRL-C' in the watch terminal window before entering DeBugging mode. After that, extension Devleopment Host window will Appear.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+Initial release into markeplace
 
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Initial release of Stackoverflow IDE
 
 ---
 
@@ -62,8 +39,3 @@ Added features X, Y, and Z.
 - [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
 - [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
-**Enjoy!**
-
-# Pagination
-
-Testing pagination branch
