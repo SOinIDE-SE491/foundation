@@ -55,7 +55,7 @@
       </v-row>
     </div>
     <div>
-      <questions :results="results" :vscode="vscode"></questions>
+      <questions :results="results" :vscode="vscode" :favorites="favorites"></questions>
     </div>
   </div>
 </template>
@@ -70,7 +70,7 @@ export default Vue.extend({
   components: {
     Questions
   },
-  props: ["query", "darkMode"],
+  props: ["query", "darkMode", "favorites"],
   data() {
     return {
       results: [],
@@ -79,7 +79,8 @@ export default Vue.extend({
       tags: "",
       filters: ["relevance", "votes", "activity", "creation"],
       selectedFilter: "relevance",
-      questionBody: null
+      questionBody: null,
+      vscode: null
     };
   },
   methods: {
@@ -90,6 +91,7 @@ export default Vue.extend({
       if (page) {
         _this.page = page;
       }
+      console.log(page);
       var cleanTags = this.tags
         .trim()
         .replace(new RegExp(" ", "g"), ";")
@@ -131,7 +133,7 @@ export default Vue.extend({
   mounted: function() {
     this.vscode = acquireVsCodeApi();
     if (this.query != "") {
-      this.queryStackExchange();
+      this.queryStackExchange(1);
     }
   }
 });

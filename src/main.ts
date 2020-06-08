@@ -11,12 +11,13 @@ let v = new Vue({
     template: `
     <div data-app>
         <Header v-on:changeMode="updateMode"/>
-        <query :query=query :darkMode=darkMode></query>
+        <query :query=query :darkMode=darkMode :favorites=favorites></query>
     </div>
     `,
     data: { 
         query: "",
-        darkMode: true
+        darkMode: true,
+        favorites: Array()
     },
     components: {
         Query,
@@ -25,11 +26,10 @@ let v = new Vue({
     methods: {
         updateMode(mode) {
             this.darkMode = mode;
-            // console.log(this.darkMode);
-            
         }
     },
     beforeMount: function(){
         this.query = this.$el.attributes['data-query'].value;
+        this.favorites = this.$el.attributes['data-favorites'].value;
     }
 });

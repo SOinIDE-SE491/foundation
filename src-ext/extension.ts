@@ -13,11 +13,7 @@ export function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand(
     "stackoverflow-ide.run",
     () => {
-      // console.log(`history: ${context.globalState.get("history")}`);
-      if (context.globalState.get("history") == undefined) {
-        context.globalState.update("history", []);
-      }
-      const searchHistoryList: any = context.globalState.get("history");
+      const searchHistoryList: any = context.globalState.get("history", []);
       let searchPrompt = "";
 
       if (searchHistoryList === null) {
@@ -40,38 +36,34 @@ export function activate(context: vscode.ExtensionContext) {
           vscode.ViewColumn.Beside,
           { enableScripts: true }
         );
-        panel.webview.html = getTemplate(context.extensionPath, query);
-        // Can't seem to get this working, so set query in data attribute as work around atm
-        //panel.webview.postMessage(JSON.stringify({"query": query}));
+        // Get list of Favorites from global state, default empty array
+        let favorites = Array();
+        favorites = context.globalState.get('favorites', favorites);
+
+        panel.webview.html = getTemplate(context.extensionPath, query, favorites);
 
         // declare text editor
         let textEditor = vscode.window.activeTextEditor;
 
         // look for an active texteditor
-        vscode.window.onDidChangeActiveTextEditor((event) => {
+        vscode.window.onDidChangeActiveTextEditor(event => {
           if (event !== undefined) {
-            textEditor = event;
+              textEditor = event;
           }
         });
 
         // Handle messages from the webview
-        panel.webview.onDidReceiveMessage(
-          (message) => {
-            console.log("----- Received MSG from WebView -----");
+        panel.webview.onDidReceiveMessage(message => {
+          console.log('----- Received MSG from WebView -----');
             switch (message.type) {
-              case "insert":
+              case 'insert':
                 // Ignore if no active TextEditor
                 if (!textEditor) {
-                  vscode.window.showErrorMessage("Not found texteditor!");
+                  vscode.window.showErrorMessage('Not found texteditor!');
                   return false;
                 } else {
                   // Create an edit to insert into the document
-                  let edits = [
-                    vscode.TextEdit.insert(
-                      textEditor.selection.active,
-                      message.text
-                    ),
-                  ];
+                  let edits = [ vscode.TextEdit.insert(textEditor.selection.active, message.text) ];
                   // Insert the text
                   let uri = textEditor.document.uri;
                   let edit = new vscode.WorkspaceEdit();
@@ -81,11 +73,25 @@ export function activate(context: vscode.ExtensionContext) {
                 return;
               case "query":
                 manageHistory(message.text, context);
+                return;
+              case 'favorite':
+                // message.text should equal the question_id
+                if (favorites.includes(message.text)) {
+                  // Remove from Favorites
+                  favorites = favorites.filter(e => e !== message.text);
+                } else {
+                  // Add to Favorites
+                  favorites.push(message.text);
+                }
+
+                // Persist favorites to global state
+                context.globalState.update('favorites', favorites);
+                return;
             }
           },
           undefined,
           context.subscriptions
-        );
+          );
       });
     }
   );
@@ -114,7 +120,7 @@ const manageHistory = (newQuery: string, context: any) => {
   context.globalState.update("history", existingHistory);
 };
 
-function getTemplate(extensionPath: string, query: any) {
+function getTemplate(extensionPath: string, query: any, favorites: any) {
   const script = vscode.Uri.file(
     path.join(extensionPath, "dist", "js", "app.js")
   );
@@ -141,7 +147,10 @@ function getTemplate(extensionPath: string, query: any) {
 </head>
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="app" data-query="${query}"></div>
+  <div id="app"
+    data-query="${query}"
+    data-favorites="${favorites}">
+  </div>
   <script src="${scriptPath}"></script>
 </body>
 </html>`;
