@@ -33,15 +33,14 @@ Start Debugging
 
 `Press F5` or `Run -> Start Debugging`
 
-DUE TO CURRENT DEVLOPMENT ISSUE
+DUE TO CURRENT DEVLOPMENT ISSUE:
 
-`In terminal window, change shell to Task -watch`
-
-`press CTRL-C`
-
-`Extension Development Host will open`
+    In terminal window, change shell to Task -watch
+    press CTRL-C
+    Extension Development Host will open
 
 View command Pallete
+
 `View -> Command Pallette`
 
 Select Stackoverflow IDE
