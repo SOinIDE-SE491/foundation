@@ -10,6 +10,8 @@ For example if there is an image subfolder under your extension project workspac
 
 \!\[stackoverflow_ide_homepage\]\(images/stackoverflow_ide_answers.png\)
 
+\!\[stackoverflow_ide_homepage\]\(images/stackoverflow_ide_overview.gif\)
+
 > Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
 ## Known Issues
