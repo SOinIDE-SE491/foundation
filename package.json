@@ -9,7 +9,7 @@
 	},
 	"license": "MIT",
 	"homepage": "https://github.com/SOinIDE-SE491/foundation",
-	"repository" {
+	"repository": {
 		"type": "git",
 		"url": "https://github.com/SOinIDE-SE491/foundation"
 	},
