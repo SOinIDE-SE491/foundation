@@ -1,9 +1,24 @@
 {
 	"name": "stackoverflow-ide",
 	"displayName": "StackOverflow IDE",
-	"description": "Search questions through StackOverFlow IDE",
+	"description": "Search questions through StackOverFlow and insert code directly into your source code.",
 	"version": "0.0.1",
-	"private": true,
+	"publisher": "se491-stackOverflowIde",
+	"author": {
+		"name": "Bright Phakamad, Pedro Rebollar, Marko Milosavljevic, Price Shoemaker, David Bergunder"
+	},
+	"license": "MIT",
+	"homepage": "https://github.com/SOinIDE-SE491/foundation",
+	"repository" {
+		"type": "git",
+		"url": "https://github.com/SOinIDE-SE491/foundation"
+	},
+	"keywords": [
+		"Stack Overflow",
+		"Stack Overflow questions",
+		"Stack Overflow answers",
+		"stackoverflow"
+	],
 	"engines": {
 		"vscode": "^1.44.0"
 	},
