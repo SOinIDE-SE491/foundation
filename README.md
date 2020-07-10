@@ -1,4 +1,4 @@
-# Stack Overflow VS-Code Extension [![Build Status](https://travis-ci.com/SOinIDE-SE491/foundation.svg?branch=master)](https://travis-ci.org/SOinIDE-SE491/foundation)
+# Stack Overflow VS-Code Extension [![Build Status](https://travis-ci.com/SOinIDE-SE491/foundation.svg?branch=master)](https://travis-ci.com/SOinIDE-SE491/foundation)
 
 ### Team Members
 1. Bright Phakamad
